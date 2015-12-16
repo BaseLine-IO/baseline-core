@@ -1,7 +1,6 @@
-package baseline.ddl;
+package baseline.database.ddl;
 
 import baseline.model.ModelObject;
-import baseline.model.Table;
 import baseline.model.table.Column;
 
 public class ColumnDDL extends DDL {

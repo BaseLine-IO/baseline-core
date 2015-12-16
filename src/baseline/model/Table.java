@@ -10,11 +10,8 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyAttribute;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
 
 import baseline.collections.Indexable;
@@ -26,7 +23,6 @@ import baseline.model.constraint.PrimaryKey;
 import baseline.model.constraint.Unique;
 import baseline.model.table.Column;
 import baseline.model.table.TableTypes;
-import baseline.newdiff.DiffData;
 import baseline.newdiff.DiffThis;
 
 import com.google.common.base.Charsets;
@@ -39,15 +35,18 @@ public class Table extends ModelObject implements Indexable{
 	@XmlAttribute public TableTypes TableType;
 	public String Comment;
 	
-	@DiffThis	@XmlElement(name="Column") public IndexedList<Column> Columns = new IndexedList<Column>(this);
-	@DiffThis	@XmlElement(name="Index") public IndexedList<Index> Indexes = new IndexedList<Index>(this);
+	@DiffThis
+	@XmlElement(name="Column") public IndexedList<Column> Columns = new IndexedList<Column>(this);
+	@DiffThis
+	@XmlElement(name="Index") public IndexedList<Index> Indexes = new IndexedList<Index>(this);
 	@XmlElements({
 				@XmlElement(name="Unique", type=baseline.model.constraint.Unique.class),
 				@XmlElement(name="Check", type=baseline.model.constraint.Check.class),
 				@XmlElement(name="PrimaryKey", type=baseline.model.constraint.PrimaryKey.class),
 				@XmlElement(name="ForeignKey", type=baseline.model.constraint.ForeignKey.class)
 	})
-	@DiffThis	 public IndexedList<Constraint> Constraints = new IndexedList<Constraint>(this);
+	@DiffThis
+	public IndexedList<Constraint> Constraints = new IndexedList<Constraint>(this);
 	
 	
 	public Map<String,Object> getParamMap(){

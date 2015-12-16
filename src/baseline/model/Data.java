@@ -1,15 +1,11 @@
 package baseline.model;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-import com.google.common.base.Joiner;
-import com.google.common.hash.HashCodes;
 import com.google.common.hash.Hashing;
 
 import baseline.collections.Indexable;
@@ -19,7 +15,7 @@ import baseline.newdiff.DiffThis;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Data extends ModelObject implements Indexable{
 	
-	   @DiffThis(DiffData.class) @XmlAttribute 
+	   @DiffThis(DiffData.class) @XmlAttribute
 	   public String TableName;
 	   @XmlAttribute 
 	   private String URL;

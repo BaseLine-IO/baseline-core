@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
 
+import baseline.core.common.Filter;
 import baseline.core.common.Input;
+import baseline.core.interfaces.SchemaLoader;
+import baseline.core.types.InputTypes;
 import baseline.model.Constraint;
 import baseline.model.Data;
 import baseline.model.Index;
@@ -18,39 +21,106 @@ import baseline.model.constraint.ConstraintTypes;
 import baseline.model.table.TableTypes;
 import baseline.newdiff.DiffLog;
 
+import com.google.common.base.Joiner;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
 
 import sbt.datapipe.DataPipe;
 import sbt.datapipe.fetchers.Fetchable;
 
-public class Crawler implements Fetchable {
+public class Crawler implements Fetchable, SchemaLoader {
 	private Schema schema;
+
+	private String URL;
+
+	private Filter Exclude;
+	private Filter Include;
+
+	private String Login;
+	private String Password;
+
+	private static enum State{
+		TABLES,
+		INDEXES,
+		CONSTRS;
+	}
+
+	@Override
+	public SchemaLoader setLogin(String login) {
+		Login = login;
+		return this;
+	}
+
+	@Override
+	public SchemaLoader setPassword(String password) {
+		Password = password;
+		return this;
+	}
+
+	@Override
+	public SchemaLoader setURL(String url)  {
+		URL = url;
+		return this;
+	}
+
+	@Override
+	public SchemaLoader setIncludeFilter(Filter f) {
+		Include = f;
+		return this;
+	}
+
+	@Override
+	public SchemaLoader setExcludeFilter(Filter f) {
+		Exclude = f;
+		return this;
+	}
+
 	private State state = State.TABLES;
-	Input Config;
+
 	
-	public Crawler(Input conf) {
-		Config = conf;
+	public Crawler() {
+
 	}
 	
 	public Schema load() throws Exception{
-		schema = new Schema(Config.getURN());
+		schema = new Schema(DatabaseFabric.createURN(URL,Login,Password));
 	
-	   	HashMap<String,Object> tmpl_prop = new HashMap<String,Object>();
-	  // 	if(props.getProperty("include") != null) tmpl_prop.put("include", props.getProperty("include").split(","));
-	  // 	if(props.getProperty("exclude") != null)tmpl_prop.put("exclude", props.getProperty("exclude").split(","));
+	   	HashMap<String,Object> tabelsParams = new HashMap<String,Object>(2);
 
-		new DataPipe(Config.getDataPipeProps()).onErrorStop(true).
+	  	if(Include != null && Include.getTabels() != null){
+			System.out.println(
+			Joiner.on("").join("'",
+				Joiner.on("','").join(Include.getTabels().split(","))
+			,"'"
+			)
+			);
 
-      
-        
-        select(QueryBuilder.queryFromTemplate("USER_TAB_COLS.sql", tmpl_prop)).fetch(this.state(State.TABLES)).
+
+			tabelsParams.put("include",Include.getTabels().split(","));
+		}
+
+
+
+		if(Exclude != null && Exclude.getTabels() != null){
+			tabelsParams.put("exclude", Exclude.getTabels().split(","));
+		}
+
+
+		 DataPipe data = DatabaseFabric.fromUrl(URL,Login,Password);
+
+		 data.onErrorStop(true);
+
+
+		data.
+		select(QueryBuilder.queryFromTemplate("USER_TAB_COLS.sql", tabelsParams)).fetch(this.state(State.TABLES)).
 		
-        select(QueryBuilder.queryFromTemplate("USER_CONSTR.sql", tmpl_prop)).fetch(this.state(State.CONSTRS)).
+        select(QueryBuilder.queryFromTemplate("USER_CONSTR.sql", tabelsParams)).fetch(this.state(State.CONSTRS)).
         
-        select(QueryBuilder.queryFromTemplate("USER_INDEXES.sql", tmpl_prop)).fetch(this.state(State.INDEXES))
-				
-		.close();
+        select(QueryBuilder.queryFromTemplate("USER_INDEXES.sql", tabelsParams)).fetch(this.state(State.INDEXES));
+
+
+
+		data .close();
 		
 		return schema;
 }
@@ -60,12 +130,12 @@ public class Crawler implements Fetchable {
 	@Override
 	public Object fetch(ResultSet rs) throws SQLException {
 		switch (state) {
-		case TABLES: tabels(rs); break;
-		case INDEXES: indexes(rs); break;
-		case CONSTRS: constraints(rs); break;
+			case TABLES: tabels(rs); break;
+			case INDEXES: indexes(rs); break;
+			case CONSTRS: constraints(rs); break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 		return null;
 	}
@@ -162,8 +232,4 @@ public class Crawler implements Fetchable {
 
 
 }
-enum State{
-	TABLES,
-	INDEXES,
-	CONSTRS;
-}
+

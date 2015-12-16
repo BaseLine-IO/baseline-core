@@ -1,4 +1,4 @@
-package baseline.ddl;
+package baseline.database.ddl;
 
 public enum ModifyTypes {
 	DEFAULT,

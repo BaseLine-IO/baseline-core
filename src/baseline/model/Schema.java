@@ -1,7 +1,5 @@
 package baseline.model;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -10,14 +8,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import baseline.collections.IndexedList;
-import baseline.newdiff.DiffData;
 import baseline.newdiff.DiffThis;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="Schema")
 public class Schema extends ModelObject {
-	@DiffThis  @XmlElement(name="Table") public IndexedList<Table> Tables;
-	@DiffThis  @XmlElement(name="Data") public IndexedList<Data> Data;
+	@DiffThis
+	@XmlElement(name="Table") public IndexedList<Table> Tables;
+	@DiffThis
+	@XmlElement(name="Data") public IndexedList<Data> Data;
 	
 	transient private String URL;
 	
@@ -64,7 +63,7 @@ public class Schema extends ModelObject {
 		return Tables.find(name);
 	}
 	
-	public final Set<String> getTableNames(){
+	public final Set<Object> getTableNames(){
 		return Tables.keySet();
 	}
 

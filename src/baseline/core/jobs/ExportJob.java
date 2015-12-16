@@ -3,6 +3,7 @@ package baseline.core.jobs;
 import baseline.BaseLineContext;
 import baseline.core.common.Input;
 import baseline.core.common.Output;
+import baseline.core.types.JobTypes;
 import baseline.model.Schema;
 
 import javax.xml.bind.JAXBException;

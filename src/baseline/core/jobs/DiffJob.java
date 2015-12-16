@@ -1,18 +1,16 @@
 package baseline.core.jobs;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.xml.sax.SAXException;
+import baseline.core.types.JobTypes;
 
 import baseline.BaseLineContext;
-import baseline.collections.IndexedList;
 import baseline.core.common.Input;
 import baseline.core.common.Output;
 import baseline.exceptions.DiffException;
@@ -23,8 +21,6 @@ import baseline.newdiff.Diff;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DiffJob extends AbstractJob{
 	ArrayList<ModelObjectTypes> Compare;
-	@XmlAttribute public String Include;
-	@XmlAttribute public String Exclude;
 	public Input Source;
 	public Input Taret;
 	public Output Output;
@@ -49,6 +45,7 @@ public class DiffJob extends AbstractJob{
 
 	@Override
 	public void run(BaseLineContext context) {
+
 		Schema source = null;
 		try {
 			source = Source.loadAsSchema();
@@ -76,7 +73,7 @@ public class DiffJob extends AbstractJob{
 		if(Output != null){
 			try {
 				Output.saveDiffLog(diff.getLog());
-			} catch (IOException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

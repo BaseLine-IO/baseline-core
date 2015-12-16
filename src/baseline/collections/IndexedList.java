@@ -1,5 +1,7 @@
 package baseline.collections;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -9,7 +11,7 @@ import com.sun.tools.jxc.gen.config.Classes;
 
 public class IndexedList<E> implements Collection<E> {
 	
-	private LinkedHashMap<String, E> map = new LinkedHashMap<String, E>();
+	private LinkedHashMap<Object, E> map = new LinkedHashMap<Object, E>();
 	private Object parent;
 	
 
@@ -52,6 +54,8 @@ public class IndexedList<E> implements Collection<E> {
 		if(e instanceof Indexable){
 			((Indexable) e).setParent(parent);
 			map.put(((Indexable) e).getKeyForIndex(), e);
+		}else if(e.getClass().isAnnotationPresent(AllowedForIndexing.class)) {
+			map.put(this.getIndexFromMethodsOfClass(e),e);
 		}else{
 			map.put(String.valueOf(e.hashCode()), e);
 		}
@@ -60,12 +64,14 @@ public class IndexedList<E> implements Collection<E> {
 
 	@Override
 	public boolean remove(Object o) {
-		String key;
-		if(o instanceof Indexable){
+		Object  key = (String.valueOf(o.hashCode()));
+		if(o instanceof Indexable) {
 			key = ((Indexable) o).getKeyForIndex();
-		}else{
-			key = (String.valueOf(o.hashCode()));
+
+		}else if(o.getClass().isAnnotationPresent(AllowedForIndexing.class)) {
+			key = this.getIndexFromMethodsOfClass((E)o);
 		}
+
 		if(map.remove(key) != null) 
 			return true; 
 		else 
@@ -74,7 +80,6 @@ public class IndexedList<E> implements Collection<E> {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		
 		return map.values().containsAll(c);
 	}
 
@@ -102,29 +107,52 @@ public class IndexedList<E> implements Collection<E> {
 		map.clear();
 		
 	}
-	
-	   public E find(String name){
-       	return map.get(name);
-       }
+
+		public E find(Object name){
+			return map.get(name);
+	}
 	   
 	   public E findByObj(E e){
-	       	return map.get(((Indexable) e).getKeyForIndex());
-	       }
+	       if(e instanceof Indexable){
+			   return map.get(((Indexable) e).getKeyForIndex());
+		   }else if(e.getClass().isAnnotationPresent(AllowedForIndexing.class)){
+				   return  map.get(getIndexFromMethodsOfClass(e));
+		   }
+		   return map.get(String.valueOf(e.hashCode()));
+	   }
        
        public boolean containsKey(String name){
        	return map.containsKey(name);
        }
        
        public boolean containsObjKey(E e){
-    	   if(e instanceof Indexable){
-    		   return map.containsKey(((Indexable) e).getKeyForIndex());
+    	   if(e instanceof Indexable) {
+			   return map.containsKey(((Indexable) e).getKeyForIndex());
+		   }else if(e.getClass().isAnnotationPresent(AllowedForIndexing.class)){
+					return  map.containsKey(getIndexFromMethodsOfClass(e));
     	   }else{
     		   return false;
     	   }
         }
        
-       public Set<String> keySet(){
+       public Set<Object> keySet(){
        	return map.keySet();
        }
+
+	private Object getIndexFromMethodsOfClass(E e){
+		for(Method m : e.getClass().getMethods()){
+			if(m.isAnnotationPresent(KeyForIndex.class)){
+				try {
+					return m.invoke(e,null);
+				} catch (IllegalAccessException e1) {
+					e1.printStackTrace();
+				} catch (InvocationTargetException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+
+		return String.valueOf(e.hashCode());
+	};
 
 }

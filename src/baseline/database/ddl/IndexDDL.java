@@ -1,4 +1,4 @@
-package baseline.ddl;
+package baseline.database.ddl;
 
 import baseline.model.Index;
 import baseline.model.ModelObject;

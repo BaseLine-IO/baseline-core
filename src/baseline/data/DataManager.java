@@ -1,21 +1,17 @@
 package baseline.data;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
+import baseline.database.DatabaseFabric;
 import com.google.common.hash.HashCodes;
 import com.google.common.hash.Hashing;
 
 import sbt.datapipe.DataPipe;
 import baseline.core.common.Input;
-import baseline.core.common.InputTypes;
+import baseline.core.types.InputTypes;
 import baseline.model.Data;
 
 public class DataManager {
@@ -54,12 +50,10 @@ public class DataManager {
 		
 		
 		private static void prepareDataContent(Data data,File file) throws Exception{
-			Input i = new Input(data.getURL());
-			if(i.getType().equals(InputTypes.JDBC) || i.getType().equals(InputTypes.JNDI)){
-	
+			if(DatabaseFabric.checkURN(data.getURL())){
 				if (file == null) file = File.createTempFile(data.getName(), ".xml");
 				Data2XMLWriter w = new Data2XMLWriter(file.getPath());
-				new DataPipe(i.getDataPipeProps()).select("select * from "+ data.getName()).fetch(w).close();
+				DatabaseFabric.fromURN(data.getURL()).select("select * from "+ data.getName()).fetch(w).close();
 				data.setURL(file.getPath());
 			}
 		}

@@ -34,12 +34,11 @@ public class QueryBuilder {
 	    		cfg.setWhitespaceStripping(true);
 	        }
 	        
-			public static String queryFromTemplate(String tmplName, Map<String,Object> root) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException{
-			    Template temp = cfg.getTemplate(tmplName);
+			public static String queryFromTemplate(String tmplName, Map<String,Object> root) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
+				Template temp = cfg.getTemplate(tmplName);
 				Writer out = new StringWriter();
 				temp.process(root, out);
-				return out.toString();  
+				return out.toString();
 			}
-	    
 
 }

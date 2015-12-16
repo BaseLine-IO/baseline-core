@@ -1,25 +1,16 @@
 package baseline.newdiff;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Set;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import baseline.collections.IndexedList;
 import baseline.core.Project;
 import baseline.exceptions.DiffException;
-import baseline.model.Data;
-import baseline.model.ModelObject;
 
 public class Diff<T>  implements DiffStrategy<T>{
 	protected T Left;

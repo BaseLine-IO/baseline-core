@@ -28,7 +28,11 @@ public class JaxbTools {
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			if(XsdLocation != null) m.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, XsdLocation);
-			m.marshal(obj, file);
+			if(file == null) {
+				m.marshal(obj, System.out);
+			}else{
+				m.marshal(obj, file);
+			}
 	};
 	
 	public Object FileToObject(File file) throws JAXBException{

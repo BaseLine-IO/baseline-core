@@ -15,6 +15,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
+import baseline.xml.XmlService;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
@@ -63,8 +64,7 @@ public class BaseLine {
 			file = new File(cmd.getOptionValue("file"));
 		}
 		
-		JaxbTools tools = new JaxbTools(new Class[]{Project.class});
-		Project project = (Project) tools.FileToObject(file);
+		Project project = new XmlService().loadProject(file);
 		
 		project.execute(new BaseLineContext());
 		

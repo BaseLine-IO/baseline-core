@@ -1,4 +1,4 @@
-package baseline.ddl;
+package baseline.database.ddl;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,9 +11,7 @@ import baseline.model.constraint.ConstraintTypes;
 import baseline.model.table.Column;
 import baseline.model.table.TableTypes;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Collections2;
 
 public class TableDDL extends DDL {
 	
