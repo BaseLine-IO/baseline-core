@@ -7,16 +7,21 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import baseline.collections.IndexedList;
+import baseline.utils.collections.IndexedList;
+import baseline.model.types.ModelObjectTypes;
 import baseline.newdiff.DiffThis;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="Schema")
 public class Schema extends ModelObject {
+
 	@DiffThis
-	@XmlElement(name="Table") public IndexedList<Table> Tables;
+	@XmlElement(name="Table")
+	public IndexedList<Table> Tables;
+
 	@DiffThis
-	@XmlElement(name="Data") public IndexedList<Data> Data;
+	@XmlElement(name="Data")
+	public IndexedList<Data> Data;
 	
 	transient private String URL;
 	

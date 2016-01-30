@@ -1,4 +1,4 @@
-package baseline.model.constraint;
+package baseline.model.types;
 
 public enum ConstraintTypes {
 	PRIMARY_KEY,

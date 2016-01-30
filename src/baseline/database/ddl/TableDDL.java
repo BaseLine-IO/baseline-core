@@ -7,9 +7,9 @@ import baseline.model.Constraint;
 import baseline.model.Index;
 import baseline.model.ModelObject;
 import baseline.model.Table;
-import baseline.model.constraint.ConstraintTypes;
+import baseline.model.types.ConstraintTypes;
 import baseline.model.table.Column;
-import baseline.model.table.TableTypes;
+import baseline.model.types.TableTypes;
 
 import com.google.common.base.Joiner;
 

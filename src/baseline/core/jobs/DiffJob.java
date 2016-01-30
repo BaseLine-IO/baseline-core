@@ -1,12 +1,9 @@
 package baseline.core.jobs;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 
 import baseline.core.types.JobTypes;
 
@@ -14,7 +11,7 @@ import baseline.BaseLineContext;
 import baseline.core.common.Input;
 import baseline.core.common.Output;
 import baseline.exceptions.DiffException;
-import baseline.model.ModelObjectTypes;
+import baseline.model.types.ModelObjectTypes;
 import baseline.model.Schema;
 import baseline.newdiff.Diff;
 

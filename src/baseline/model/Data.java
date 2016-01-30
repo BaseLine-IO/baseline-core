@@ -6,16 +6,21 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
+import baseline.utils.collections.AllowedForIndexing;
+import baseline.utils.collections.KeyForIndex;
+import baseline.model.types.ModelObjectTypes;
 import com.google.common.hash.Hashing;
 
-import baseline.collections.Indexable;
 import baseline.newdiff.DiffData;
 import baseline.newdiff.DiffThis;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Data extends ModelObject implements Indexable{
+@AllowedForIndexing
+public class Data extends ModelObject{
 	
-	   @DiffThis(DiffData.class) @XmlAttribute
+	   @DiffThis(DiffData.class)
+	   @XmlAttribute
+
 	   public String TableName;
 	   @XmlAttribute 
 	   private String URL;
@@ -52,14 +57,11 @@ public class Data extends ModelObject implements Indexable{
 	
 
 	@Override
+	@KeyForIndex
 	public String getName() {
 		return TableName;
 	}
 
-	@Override
-	public String getKeyForIndex() {
-		return TableName;
-	}
 	
 	public int hashCode(){	
 		return Hashing.combineOrdered(Arrays.asList(

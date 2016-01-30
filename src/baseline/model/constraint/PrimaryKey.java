@@ -1,11 +1,10 @@
 package baseline.model.constraint;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
+import baseline.utils.collections.AllowedForIndexing;
 import baseline.model.Constraint;
+import baseline.model.types.ConstraintTypes;
 
-
+@AllowedForIndexing
 public class PrimaryKey extends Constraint {
 	public PrimaryKey() {
 		super();

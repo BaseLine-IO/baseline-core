@@ -20,7 +20,7 @@ import baseline.model.Constraint;
 import baseline.model.ModelObject;
 import baseline.model.Schema;
 import baseline.model.Table;
-import baseline.model.constraint.ConstraintTypes;
+import baseline.model.types.ConstraintTypes;
 import baseline.newdiff.DiffLog;
 import baseline.newdiff.DiffLogItem;
 import baseline.newdiff.DiffTypes;

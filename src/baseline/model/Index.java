@@ -1,6 +1,5 @@
 package baseline.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,15 +9,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import baseline.collections.Indexable;
+import baseline.utils.collections.AllowedForIndexing;
 
+import baseline.utils.collections.KeyForIndex;
+import baseline.model.types.ModelObjectTypes;
 import com.google.common.base.Charsets;
-import com.google.common.hash.HashCode;
 import com.google.common.hash.HashCodes;
 import com.google.common.hash.Hashing;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Index  extends ModelObject implements Indexable{
+@AllowedForIndexing
+public class Index  extends ModelObject{
 	@XmlAttribute String Name;
 	@XmlAttribute String Type;
 	@XmlAttribute(name="Unique") Boolean IS_Unique = false;
@@ -52,6 +53,7 @@ public class Index  extends ModelObject implements Indexable{
 		}
 	}
 
+	@KeyForIndex
 	public final String getName() {
 		return Name;
 	}
@@ -79,17 +81,9 @@ public class Index  extends ModelObject implements Indexable{
 		)).asInt();
 	}
 
-	
-
 	@Override
 	public ModelObjectTypes getObjType() {
 		return ModelObjectTypes.INDEX;
 	}
 
-	@Override
-	public String getKeyForIndex() {
-		return Name;
-	}
-
-	
 }

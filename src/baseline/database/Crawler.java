@@ -6,20 +6,16 @@ import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Properties;
 
 import baseline.core.common.Filter;
-import baseline.core.common.Input;
 import baseline.core.interfaces.SchemaLoader;
-import baseline.core.types.InputTypes;
 import baseline.model.Constraint;
 import baseline.model.Data;
 import baseline.model.Index;
 import baseline.model.Schema;
 import baseline.model.Table;
-import baseline.model.constraint.ConstraintTypes;
-import baseline.model.table.TableTypes;
-import baseline.newdiff.DiffLog;
+import baseline.model.types.ConstraintTypes;
+import baseline.model.types.TableTypes;
 
 import com.google.common.base.Joiner;
 import com.google.common.io.CharStreams;

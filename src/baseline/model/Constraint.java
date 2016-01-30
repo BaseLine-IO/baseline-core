@@ -13,14 +13,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import baseline.collections.Indexable;
+import baseline.utils.collections.AllowedForIndexing;
+import baseline.utils.collections.KeyForIndex;
 import baseline.model.constraint.Check;
-import baseline.model.constraint.ConstraintTypes;
+import baseline.model.types.ConstraintTypes;
 import baseline.model.constraint.ForeignKey;
 import baseline.model.constraint.PrimaryKey;
 import baseline.model.constraint.Unique;
 import baseline.model.table.Column;
 
+import baseline.model.types.ModelObjectTypes;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -29,7 +31,8 @@ import com.google.common.hash.HashCodes;
 import com.google.common.hash.Hashing;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Constraint  extends ModelObject implements Indexable  {
+@AllowedForIndexing
+public class Constraint  extends ModelObject{
 	
 	public static Constraint build(ConstraintTypes type, String name){
 		switch (type) {
@@ -47,10 +50,17 @@ public class Constraint  extends ModelObject implements Indexable  {
 	transient Boolean IS_USERNAME = true;
 	transient String DBSysName;
 	String Expression;
-	@XmlAttribute String OnDelete;
-	@XmlElement(name="Column") LinkedList<Column> Columns;
-	@XmlAttribute String RefTable;
-	@XmlAttribute String onColumn;
+	@XmlAttribute
+	String OnDelete;
+
+	@XmlElement(name="Column")
+	LinkedList<Column> Columns;
+
+	@XmlAttribute
+	String RefTable;
+
+	@XmlAttribute
+	String onColumn;
 	
 	public String getOnColumn() {
 		return onColumn;
@@ -140,7 +150,7 @@ public class Constraint  extends ModelObject implements Indexable  {
 	
 	public int hashCode(){
 		return Hashing.combineOrdered(Arrays.asList(
-				Hashing.goodFastHash(32).hashString(Name+Type.name()+Expression+RefTable,Charsets.UTF_8)
+				Hashing.crc32().hashString(Name+Type.name()+Expression+RefTable,Charsets.UTF_8)
 				,HashCodes.fromInt((this.Columns == null)?-1:new HashSet(this.Columns).hashCode())
 		)).asInt();
 	}
@@ -164,11 +174,11 @@ public class Constraint  extends ModelObject implements Indexable  {
 		return Hashing.combineUnordered(cods).asInt();
 	}
 
-	@Override
+	@KeyForIndex
 	public String getKeyForIndex() {
 		if(Name != null) return Name;
 		if(DBSysName == null){
-			DBSysName = String.valueOf(new Object().hashCode());
+			DBSysName = String.valueOf(this.hashCode());
 			IS_USERNAME = false;
 		}
 		return DBSysName;

@@ -14,15 +14,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 
-import baseline.collections.Indexable;
-import baseline.collections.IndexedList;
+import baseline.utils.collections.*;
 import baseline.model.constraint.Check;
-import baseline.model.constraint.ConstraintTypes;
+import baseline.model.types.ConstraintTypes;
 import baseline.model.constraint.ForeignKey;
 import baseline.model.constraint.PrimaryKey;
 import baseline.model.constraint.Unique;
 import baseline.model.table.Column;
-import baseline.model.table.TableTypes;
+import baseline.model.types.TableTypes;
+import baseline.model.types.ModelObjectTypes;
 import baseline.newdiff.DiffThis;
 
 import com.google.common.base.Charsets;
@@ -30,15 +30,23 @@ import com.google.common.hash.HashCodes;
 import com.google.common.hash.Hashing;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Table extends ModelObject implements Indexable{
-	@XmlAttribute String Name;
-	@XmlAttribute public TableTypes TableType;
+@AllowedForIndexing
+public class Table extends ModelObject{
+	@XmlAttribute
+	String Name;
+
+	@XmlAttribute
+	public TableTypes TableType;
 	public String Comment;
 	
 	@DiffThis
-	@XmlElement(name="Column") public IndexedList<Column> Columns = new IndexedList<Column>(this);
+	@XmlElement(name="Column")
+	public IndexedList<Column> Columns = new IndexedList<Column>(this);
+
 	@DiffThis
-	@XmlElement(name="Index") public IndexedList<Index> Indexes = new IndexedList<Index>(this);
+	@XmlElement(name="Index")
+	public IndexedList<Index> Indexes = new IndexedList<Index>(this);
+
 	@XmlElements({
 				@XmlElement(name="Unique", type=baseline.model.constraint.Unique.class),
 				@XmlElement(name="Check", type=baseline.model.constraint.Check.class),
@@ -144,13 +152,13 @@ public class Table extends ModelObject implements Indexable{
 	private Constraint getConstraint(String name, ConstraintTypes type){
 		if(!Constraints.containsKey(name)){
 			 Constraint c = Constraint.build(type, name);
-			 c.setParent(this);
-			Constraints.add(c);
+			 Constraints.add(c);
 		  }
 		return  Constraints.find(name);
 	}
 
 
+	@KeyForIndex
 	public final String getName() {
 		return Name;
 	}
@@ -199,10 +207,5 @@ public class Table extends ModelObject implements Indexable{
 		return ModelObjectTypes.TABLE;
 	}
 
-	@Override
-	public String getKeyForIndex() {
-		return Name;
-	}
-	
 	
 }

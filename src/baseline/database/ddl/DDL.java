@@ -3,7 +3,7 @@ package baseline.database.ddl;
 import java.util.Iterator;
 
 import baseline.model.ModelObject;
-import baseline.model.ModelObjectTypes;
+import baseline.model.types.ModelObjectTypes;
 
 import com.google.common.base.Joiner;
 

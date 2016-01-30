@@ -5,6 +5,7 @@ import baseline.core.common.Filter;
 import baseline.core.interfaces.SchemaLoader;
 import baseline.model.Schema;
 import baseline.model.table.ColumnDataType;
+import baseline.utils.JaxbTools;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;

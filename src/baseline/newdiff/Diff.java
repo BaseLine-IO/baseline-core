@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import baseline.collections.IndexedList;
+import baseline.utils.collections.IndexedList;
 import baseline.core.Project;
 import baseline.exceptions.DiffException;
 

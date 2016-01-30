@@ -1,7 +1,5 @@
 package baseline.core;
 
-import java.util.ArrayList;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -10,9 +8,8 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import baseline.BaseLineContext;
-import baseline.collections.IndexedList;
+import baseline.utils.collections.IndexedList;
 import baseline.core.jobs.AbstractJob;
-import baseline.core.jobs.DiffJob;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="Jobs")

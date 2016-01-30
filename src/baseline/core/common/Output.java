@@ -1,7 +1,6 @@
 package baseline.core.common;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
@@ -10,13 +9,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import baseline.core.interfaces.DiffLogSaver;
-import baseline.core.interfaces.SchemaLoader;
 import baseline.core.types.OutputTypes;
 import baseline.model.Schema;
 import baseline.model.table.ColumnDataType;
 import baseline.newdiff.DiffLog;
-import baseline.database.SQLScript;
-import baseline.xml.JaxbTools;
+import baseline.utils.JaxbTools;
 import org.glassfish.hk2.api.IterableProvider;
 
 @XmlAccessorType(XmlAccessType.FIELD)

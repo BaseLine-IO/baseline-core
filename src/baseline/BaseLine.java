@@ -3,17 +3,6 @@ package baseline;
 
 
 import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Properties;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.SchemaOutputResolver;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Result;
-import javax.xml.transform.stream.StreamResult;
 
 import baseline.xml.XmlService;
 import org.apache.commons.cli.CommandLine;
@@ -23,12 +12,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
 import baseline.core.Project;
-import baseline.database.Crawler;
-
-import baseline.model.Schema;
-import baseline.model.table.ColumnDataType;
-import baseline.xml.JaxbTools;
-
 
 
 public class BaseLine {

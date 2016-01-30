@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 import baseline.BaseLineContext;
-import baseline.collections.Indexable;
+import baseline.utils.collections.Indexable;
 import baseline.core.types.JobTypes;
 
 @XmlAccessorType(XmlAccessType.FIELD)

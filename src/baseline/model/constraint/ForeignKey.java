@@ -1,10 +1,10 @@
 package baseline.model.constraint;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
+import baseline.utils.collections.AllowedForIndexing;
 import baseline.model.Constraint;
+import baseline.model.types.ConstraintTypes;
 
-
+@AllowedForIndexing
 public class ForeignKey extends Constraint {
 	public ForeignKey() {
 		super();

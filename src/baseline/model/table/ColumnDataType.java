@@ -1,18 +1,11 @@
 package baseline.model.table;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
-
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.hash.Hashing;
 
 import baseline.model.ModelObject;
-import baseline.model.ModelObjectTypes;
+import baseline.model.types.ModelObjectTypes;
 
 
 

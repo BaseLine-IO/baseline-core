@@ -1,6 +1,9 @@
 package baseline.model;
 
 
+import baseline.utils.collections.SetParent;
+import baseline.model.types.ModelObjectTypes;
+
 public abstract class ModelObject {
 	
 	public abstract ModelObjectTypes getObjType();
@@ -9,6 +12,7 @@ public abstract class ModelObject {
 	
 	protected transient ModelObject parent;
 
+	@SetParent
 	public void setParent(Object p) {
 		parent = (ModelObject) p;
 	

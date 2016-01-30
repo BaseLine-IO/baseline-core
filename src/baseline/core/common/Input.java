@@ -1,8 +1,5 @@
 package baseline.core.common;
 
-import java.io.File;
-import java.util.Properties;
-
 import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,10 +7,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 import baseline.core.interfaces.SchemaLoader;
 import baseline.core.types.InputTypes;
-import baseline.database.Crawler;
 import baseline.model.Schema;
-import baseline.model.table.ColumnDataType;
-import baseline.xml.JaxbTools;
 import org.glassfish.hk2.api.IterableProvider;
 
 @XmlAccessorType(XmlAccessType.FIELD)
