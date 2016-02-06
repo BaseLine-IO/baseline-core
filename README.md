@@ -1,5 +1,5 @@
 # Baseline Project
-**Version control and deployment system for relation databases**
+**Version control and deployment system for Relational Databases**
 
 Baseline Core - command line utility.
 
