@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Baseline-Team/baseline-core.svg?branch=v2.0-alpha)](https://travis-ci.org/google/guava)
+
 # Baseline Project
 **Version control and deployment system for Relational Databases**
 
