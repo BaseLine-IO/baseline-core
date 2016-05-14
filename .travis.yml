@@ -4,8 +4,8 @@ jdk:
 script: gradle uberjar
 deploy:
   provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
-  file: "FILE TO UPLOAD"
+  api_key: "f244293c729d5066cf27"
+  file: "build/datapipe.jar"
   skip_cleanup: true
   on:
     tags: true
