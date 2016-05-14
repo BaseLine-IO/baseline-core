@@ -9,7 +9,7 @@ import java.io.File;
 
 
 public class BaseLine {
-	static String version ="1.0.0";
+	static String version = "2.0.0";
 	
 	
 	
