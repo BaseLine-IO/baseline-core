@@ -95,9 +95,8 @@ public class SQLScript implements DiffLogSaver {
 	   this.close();
 	}
 
-	lic
 
-	void TableAdd(Table new_table) throws IOException {
+	public void TableAdd(Table new_table) throws IOException {
 		write_middle.write(DDL.getDDL(new_table, delimiter).CREATE());
 
 		Iterator<Constraint> i = new_table.getConstraints().iterator();
@@ -109,9 +108,7 @@ public class SQLScript implements DiffLogSaver {
 	}
 
 
-	lic
-
-	void WorkWithConstraint(Constraint old, Constraint _new, DiffTypes action) throws IOException {
+	public void WorkWithConstraint(Constraint old, Constraint _new, DiffTypes action) throws IOException {
 		if (action == DiffTypes.ADD && !_new.getIS_USERNAME())
 			UnnamedConstraintPatch((Table) old.getParent(), (Table) _new.getParent(), _new);
 
@@ -126,7 +123,7 @@ public class SQLScript implements DiffLogSaver {
 	}
 
 
-	pub
+
 	private void close() throws IOException{
 		write_first.close();
 		write_middle.close();
@@ -187,8 +184,6 @@ public class SQLScript implements DiffLogSaver {
 	}
 
 
-	pub
-	vate
 
 	void UnnamedConstraintPatch(Table OldTable, Table NewTable, Constraint new_obj) throws IOException {
 		if (new_obj.getType() != ConstraintTypes.CHECK) {
@@ -208,8 +203,6 @@ public class SQLScript implements DiffLogSaver {
 		}
 	}
 
-	ppri
-	vate
 
 	void RecreatingAllFKsForPK(Schema OldSchema, Schema NewSchema, String tableName, Constraint obj) throws IOException {
 		int column_hash = obj.columnsHashCode();
@@ -228,10 +221,7 @@ public class SQLScript implements DiffLogSaver {
 		}
 	}
 
-	pri
-	lic Constraint
-
-	findConstraint(Table where, Constraint what) {
+	Constraint findConstraint(Table where, Constraint what) {
 		if(what.getIS_USERNAME()) return where.findConstraint(what.getName());
 		Iterator<Constraint> iterator = where.Constraints.iterator();
 		while (iterator.hasNext()) {
@@ -255,7 +245,6 @@ public class SQLScript implements DiffLogSaver {
 		return what;
 	}
 
-	ub
 
 	private static enum Action2ObjectTypes {
 		ADD_TABLE, MODIFY_TABLE, ADD_COLUMN, MODIFY_COLUMN,

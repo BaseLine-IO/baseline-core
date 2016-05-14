@@ -15,6 +15,6 @@ task uberjar(type: Jar, dependsOn: [':compileJava']) {
     from configurations.runtime.asFileTree.files.collect { zipTree(it) }
 
     manifest {
-        attributes 'Main-Class': 'BaseLine.java'
+        attributes 'Main-Class': 'baseline.BaseLine.java'
     }
 }
