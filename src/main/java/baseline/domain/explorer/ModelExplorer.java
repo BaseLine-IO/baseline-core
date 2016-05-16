@@ -1,4 +1,4 @@
-package baseline.domain.controllers;
+package baseline.domain.explorer;
 
 import baseline.domain.model.Constraint;
 import baseline.domain.model.Schema;

@@ -7,5 +7,6 @@ deploy:
   api_key: "441d3dbe1e1388818c988206bb625778f97dec75"
   file: "build/datapipe.jar"
   skip_cleanup: true
+  overwrite: true
   on:
     tags: true

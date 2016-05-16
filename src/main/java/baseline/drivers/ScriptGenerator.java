@@ -1,6 +1,6 @@
 package baseline.drivers;
 
-import baseline.domain.support.Change;
+import baseline.domain.comparator.Change;
 
 import java.util.PriorityQueue;
 

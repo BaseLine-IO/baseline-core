@@ -1,6 +1,6 @@
 package baseline.script;
 
-import baseline.domain.support.Change;
+import baseline.domain.comparator.Change;
 
 import java.util.HashSet;
 import java.util.PriorityQueue;

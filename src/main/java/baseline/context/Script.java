@@ -1,6 +1,6 @@
 package baseline.context;
 
-import baseline.domain.support.Change;
+import baseline.domain.comparator.Change;
 
 /**
  * Created by Home on 23.03.16.

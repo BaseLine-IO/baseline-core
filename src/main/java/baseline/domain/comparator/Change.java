@@ -1,4 +1,4 @@
-package baseline.domain.support;
+package baseline.domain.comparator;
 
 import baseline.script.SortOrder;
 

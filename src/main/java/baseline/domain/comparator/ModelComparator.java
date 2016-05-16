@@ -1,11 +1,14 @@
-package baseline.domain.controllers;
+package baseline.domain.comparator;
 
 import baseline.domain.model.Schema;
 import baseline.domain.model.SchemaObject;
-import baseline.domain.support.Change;
 import baseline.domain.support.Nodes;
+import baseline.qualifiers.DomainLiteral;
+import org.glassfish.hk2.api.IterableProvider;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,7 +18,11 @@ import java.util.Set;
  */
 public class ModelComparator {
 
-    private HashSet<Change> Changes = new HashSet<Change>();
+    @Inject
+    private IterableProvider<Rule> rules;
+
+    private Collection<Change> changes = new HashSet<Change>();
+
 
     private void compareNodes(Nodes<SchemaObject> target, Nodes<SchemaObject> source) throws IllegalAccessException {
         Set<SchemaObject> set = new HashSet<SchemaObject>();
@@ -25,7 +32,7 @@ public class ModelComparator {
             if (target.containsKey(obj.getName())) {
                 this.compareObjects(target.find(obj.getName()), source.find(obj.getName()));
             } else {
-                Changes.add(
+                changes.add(
                         new Change(
                                 target, source, null, Change.Type.ADD
                         )
@@ -38,7 +45,7 @@ public class ModelComparator {
         set.removeAll(source);
         for (SchemaObject obj : set) {
             if (!source.containsObjKey(obj))
-                Changes.add(
+                changes.add(
                         new Change(
                                 target, source, null, Change.Type.REMOVE
                         )
@@ -56,7 +63,7 @@ public class ModelComparator {
                 this.compare(field.get(target), field.get(source));
             } else {
                 if (!Objects.equals(field.get(target), field.get(source))) {
-                    Changes.add(
+                    changes.add(
                             new Change(
                                     target, source, field.getName(), Change.Type.MODIFY
                             )
@@ -77,27 +84,50 @@ public class ModelComparator {
 
     }
 
-    public void compare(Object target, Object source) throws IllegalAccessException {
-        if (Objects.equals(target, source)) return;
+    public ModelComparator compare(Object target, Object source) throws IllegalAccessException {
+        if (!Objects.equals(target, source)) {
 
 
-        if (source instanceof Nodes) {
-            this.compareNodes((Nodes) target, (Nodes) source);
+            if (source instanceof Nodes) {
+                this.compareNodes((Nodes) target, (Nodes) source);
+            }
+
+            if (source instanceof SchemaObject) {
+                this.compareObjects((SchemaObject) target, (SchemaObject) source);
+            }
+
+            if (source instanceof Schema) {
+                this.compareSchema((Schema) target, (Schema) source);
+            }
+
         }
+        return this;
+    }
 
-        if (source instanceof SchemaObject) {
-            this.compareObjects((SchemaObject) target, (SchemaObject) source);
-        }
+    public ModelComparator applyRules(Collection<Change> newChangeSet) {
 
-        if (source instanceof Schema) {
-            this.compareSchema((Schema) target, (Schema) source);
-        }
+        changes.stream().forEach(
+                change -> {
+
+                    rules.qualifiedWith(new DomainLiteral((Class<? extends SchemaObject>) change.getSource().getClass()))
+
+                            .forEach(r -> {
+                                if (r.apply(change, newChangeSet)) {
+                                    newChangeSet.add(change);
+                                }
+                            });
+
+                }
+        );
+
+        changes = newChangeSet;
+        return this;
 
     }
 
 
-    public HashSet<Change> changes() {
-        return Changes;
+    public Collection<Change> changes() {
+        return changes;
     }
 
 
